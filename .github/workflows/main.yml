@@ -1,22 +1,31 @@
-- uses: actions/checkout@v2
 
-- name: Set up Python 3.8
-  uses: actions/setup-python@v1
-  with:
-    python-version: 3.8
+name: Python CI
 
-- name: Install dependencies
-  run: |
-    make install
+on:
+  push:
+  pull_request:
 
-- name: Lint with pylint
-  run: |
-    make lint
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-- name: Test with pytest
-  run: |
-    make test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
 
-- name: Format code
-  run: |
-    make format
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: make install
+
+      - name: Lint with pylint
+        run: make lint
+
+      - name: Test with pytest
+        run: make test
+
+      - name: Check code formatting
+        run: black --check *.py
