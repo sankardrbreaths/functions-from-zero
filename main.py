@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+
 class Wiki(BaseModel):
     name: str
     length: int = 1
@@ -19,13 +20,15 @@ async def predict_story(wiki: Wiki):
     payload = {"wikipage": summary}
     return JSONResponse(content=jsonable_encoder({"summary": payload}))
 
+
 @app.get("/")
 async def root():
     return {"message": "Hello, World!"}
 
+
 @app.get("/add/{a}/{b}")
 async def add_numbers(a: int, b: int):
-    return {"sum": a + b}   
+    return {"sum": a + b}
 
 
 if __name__ == "__main__":
