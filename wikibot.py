@@ -1,19 +1,19 @@
 import click
 import wikipedia
+from mylib.bot import get_summary
 
 
+# CLI interface
 @click.command()
-@click.option("--name", default="Microsoft", prompt="Wikipedia page to scrap", help="Name of the topic to search on Wikipedia")
-def scrape(name="Microsoft", length=1):
+@click.option("--name", default="Microsoft", prompt="Wikipedia page")
+@click.option("--length", default=1, type=int)
+def scrape(name, length):
     try:
-        summary = wikipedia.summary(name, sentences=length)
-        click.echo(click.style(f"Summary of {name}:\n{summary}", bg="white", fg="black"))
-    except wikipedia.exceptions.DisambiguationError as e:
-        click.echo(click.style(f"Disambiguation error: {e.options}", fg="red"))
+        summary = get_summary(name, length)
+        click.echo(f"Summary of {name}:\n{summary}")
     except wikipedia.exceptions.PageError:
-        click.echo(click.style("Page not found.", fg="red"))
-    except Exception as e:
-        click.echo(click.style(f"An error occurred: {str(e)}", fg="red"))
+        click.echo("Page not found.")
+
 
 if __name__ == "__main__":
     scrape()
