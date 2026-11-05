@@ -3,3 +3,5 @@ pytest
 black
 wikipedia
 click
+fastapi
+uvicorn
